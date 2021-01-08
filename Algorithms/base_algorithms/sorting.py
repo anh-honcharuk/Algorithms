@@ -1,12 +1,35 @@
 class Sorting:
 
     @staticmethod
-    def merge_sort(l, descending):
-        res = Sorting.__merge_sort_rec(l)
+    def __direction(res, descending):
         if descending == True:
             return res
         else:
             return res[::-1]
+
+    @staticmethod
+    def check_type(l, descending):
+        ar = True
+        if not type(l) == list:
+            raise TypeError("first argument must be 'list'")
+            ar = False
+        if not type(descending) == bool:
+            raise TypeError("second argument must be 'boolean'")
+            ar = False
+        return ar
+
+    @staticmethod
+    def swap(el1, el2):
+        temp = el1
+        el1 = el2
+        el2 = temp
+        return el1, el2
+
+    @staticmethod
+    def merge_sort(l, descending):
+        if Sorting.check_type( l, descending ) == True:
+            res = Sorting.__merge_sort_rec(l)
+            return Sorting.__direction(res, descending)
 
     @staticmethod
     def __merge_sort_rec(l):
@@ -49,5 +72,20 @@ class Sorting:
                  return result
 
         return result
+
+    @staticmethod
+    def insertion_sort(l, descending):
+        if Sorting.check_type(l, descending) == True:
+            count = 0
+            for i in range(len(l)):
+                for j in range(i, 0, -1):
+                     if j > 0 and l[j - 1] > l[j]:
+                        count += 1
+                        l[j - 1], l[j] = Sorting.swap(l[j - 1], l[j])
+                     else:
+                         break
+            return Sorting.__direction(l, descending)
+
+
 
 
