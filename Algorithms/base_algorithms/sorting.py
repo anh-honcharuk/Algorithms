@@ -1,3 +1,6 @@
+from random import randint
+
+
 class Sorting:
 
     @staticmethod
@@ -8,7 +11,7 @@ class Sorting:
             return res[::-1]
 
     @staticmethod
-    def check_type(l, descending):
+    def __check_type(l, descending):
         ar = True
         if not type(l) == list:
             raise TypeError("first argument must be 'list'")
@@ -19,7 +22,7 @@ class Sorting:
         return ar
 
     @staticmethod
-    def swap(el1, el2):
+    def __swap(el1, el2):
         temp = el1
         el1 = el2
         el2 = temp
@@ -27,7 +30,7 @@ class Sorting:
 
     @staticmethod
     def merge_sort(l, descending):
-        if Sorting.check_type( l, descending ) == True:
+        if Sorting.__check_type( l, descending ) == True:
             res = Sorting.__merge_sort_rec(l)
             return Sorting.__direction(res, descending)
 
@@ -75,17 +78,40 @@ class Sorting:
 
     @staticmethod
     def insertion_sort(l, descending):
-        if Sorting.check_type(l, descending) == True:
+        if Sorting.__(l, descending) == True:
             count = 0
             for i in range(len(l)):
                 for j in range(i, 0, -1):
                      if j > 0 and l[j - 1] > l[j]:
                         count += 1
-                        l[j - 1], l[j] = Sorting.swap(l[j - 1], l[j])
+                        l[j - 1], l[j] = Sorting.__swap(l[j - 1], l[j])
                      else:
                          break
             return Sorting.__direction(l, descending)
 
+    @staticmethod
+    def quick_sort(l, descending):
+        return Sorting.__direction(Sorting.__rec_quick_sort(l, descending), descending)
 
+    @staticmethod
+    def __rec_quick_sort(l, descending):
+        if Sorting.__check_type(l, descending ) == True:
+            if len(l) < 2:
+                return l
+            else:
+                pivot = l[randint(0, len(l) - 1)]
+                # less = [x for x in l if x < pivot]
+                # eq = [x for x in l if x == pivot]
+                # bigger = [x for x in l if x > pivot]
+                less = []
+                eq = []
+                bigger = []
+                for x in l:
+                    if x < pivot:
+                        less.append(x)
+                    elif x == pivot:
+                        eq.append(x)
+                    else:
+                        bigger.append(x)
 
-
+                return Sorting.__rec_quick_sort(less, descending) + eq + Sorting.__rec_quick_sort(bigger, descending)
